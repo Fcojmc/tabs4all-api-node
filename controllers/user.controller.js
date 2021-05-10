@@ -1,6 +1,11 @@
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
-
+/**
+ * Método para registrar usuario
+ * @param {Request} req  
+ * @param {Response} res 
+ * @returns {Response.json}
+ */
 exports.registerUser = async (req, res) => {
 
     const { name, email, password } = req.body;
@@ -29,6 +34,12 @@ exports.registerUser = async (req, res) => {
     }
 }
 
+/**
+ * Método para obtener datos de un usuario
+ * @param {*} req request
+ * @param {*} res response
+ * @returns jsonResponse
+ */
 exports.getUser = async (req, res) => {
     
     const { id } = req.params;

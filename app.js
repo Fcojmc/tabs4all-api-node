@@ -19,14 +19,14 @@ app.use(express.urlencoded({extended: true}));
  * Rutas de la api
  */
 app.use(basePath, require('./routes/user.routes'));
-
+app.use(basePath, require('./routes/tab.routes'));
 /**
  * Método que inicia el servidor
  */
 app.listen(port, async () => {
     console.log(`Server running on http://localhost:${port}`);
     await sequelize.authenticate();
-    console.log('Database connected!');
+    console.log('Database connected');
  }
 );
 

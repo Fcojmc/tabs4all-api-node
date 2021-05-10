@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Band }) {
       // define association here
-      this.belongsTo(Band, { foreignKey: 'bandId' });
+      this.belongsTo(Band, { foreignKey: 'bandId', as: 'band' });
     }
   };
   Song.init({
