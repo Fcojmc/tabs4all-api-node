@@ -11,24 +11,41 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Band, Tab }) {
       // define association here
       this.hasMany(Tab, { foreignKey: 'userId', as: 'tabs' });
-      this.belongsToMany(Tab, { through: 'users_tabs' });
-      this.belongsToMany(Band, { through: 'users_bands' });
+      this.belongsToMany(Tab, { as: 'favouriteTabs', through: 'users_tabs' });
+      this.belongsToMany(Band, { as: 'favouriteBands', through: 'users_bands' });
     }
   };
 
   User.init({
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: { message: 'This field is mandatory.' },
+        notEmpty: { message: 'Name must not be empty.' },
+      }
     }, 
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notNull: { message: 'This field is mandatory.' },
+        notEmpty: { message: 'Email must not be empty.' },
+        isEmail: { message: 'Email is not valid.' }
+      }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: { message: 'Password is mandatory.' },
+        notEmpty: { message: 'Password must not be empty' },
+        len: {
+          message: 'Password needs to be between 6 and 20 characters.',
+          args: [6, 20]
+        }
+      }
     },
     image: {
       type: DataTypes.STRING,
