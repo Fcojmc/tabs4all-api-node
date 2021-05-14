@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { sequelize } = require('./models');
+const { sequelize } = require('./src/models');
 
 const app = express();
 const port = process.env.PORT;
@@ -18,10 +18,11 @@ app.use(express.urlencoded({extended: true}));
 /**
  * Rutas de la api
  */
-app.use(basePath, require('./routes/user.routes'));
-app.use(basePath, require('./routes/band.routes'));
-app.use(basePath, require('./routes/tab.routes'));
-app.use(basePath, require('./routes/tab.routes'));
+app.use(basePath, require('./src/routes/user.routes'));
+app.use(basePath, require('./src/routes/band.routes'));
+app.use(basePath, require('./src/routes/tab.routes'));
+app.use(basePath, require('./src/routes/song.routes'));
+
 /**
  * Método que inicia el servidor
  */

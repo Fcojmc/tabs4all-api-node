@@ -11,13 +11,7 @@ exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const emailExists = await User.findOne({ where: { email } });
-
-        if (emailExists) {
-            return res.status(400).json({
-                message: `Email '${email}' already exists`
-            });
-        }
+        
         const encryptedPassword = bcrypt.hashSync(password, 10);
 
         const user = await User.create({name, email, password: encryptedPassword});
@@ -30,7 +24,7 @@ exports.registerUser = async (req, res) => {
 
     } catch(err) {
         console.log(err);
-        return res.status(500).json(err);
+        throw new Error(err.message);
     }
 }
 
@@ -47,22 +41,15 @@ exports.getUserInfo = async (req, res) => {
     try{
         const user = await User.findByPk(id);
 
-        if (!user) {
-            return res.status(404).json({
-                status: 'Error',
-                message: 'There is no user with such id'
-            });
-        } else {
-            return res.json({
-                status: 'Success',
-                message: 'User info',
-                data: user
-            });
-        }
-
+        return res.json({
+            status: 'Success',
+            message: 'User info',
+            data: user
+         });
+        
     } catch(err) {
         console.log(err);
-        return res.status(500).json(err);
+        throw new Error(err.message);
     }
 }
 
@@ -80,21 +67,15 @@ exports.updateUser = async (req, res) => {
     try {
         const user = await User.findByPk(id);
 
-        if (!user) {
-            return res.status(404).json({
-                status: 'Error',
-                message: 'There is no user with such id'
-            });
-        }
-
         await user.update(body);
 
         return res.json({
             success: true,
             message: 'User info updated succesfully'
         });
+        
     } catch(error) {
         console.log(error);
-        return res.status(500).json(error);
+        throw new Error(error.message);
     }
 }

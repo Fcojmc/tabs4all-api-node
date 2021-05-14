@@ -12,10 +12,28 @@ exports.createBand = async (req, res) => {
         });
     } catch(error) {
         console.log(error);
-        return res.status(500).json(error);
+        throw new Error(error.message);
     }
 }
 
+//GET ALL BANDS todo
+
+exports.getBandById = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const band = await Band.findByPk(id);
+
+        return res.json({
+            succes: true,
+            message: 'Band found',
+            data: band
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error(error.message);
+    }
+}
 
 exports.updateBand = async (req, res) => {
     const { id } = req.params;
@@ -24,22 +42,16 @@ exports.updateBand = async (req, res) => {
     try {
         const band = await Band.findBypk(id);
 
-        if (!band) {
-            res.status(404).json({
-                success: false,
-                message: 'There is no band with such id.'
-            });
-        }
-
         await band.update(body);
         
         return res.json({
             success: true,
             message: `Band ${body.name} updated.`
         });
+        
     } catch (error) {
         console.log(error);
-        return res.status(500).json(error);
+        throw new Error(error.message);
     }
 }
 
@@ -64,6 +76,6 @@ exports.deleteBand = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error);
+        throw new Error(error.message);
     }
 }
