@@ -8,9 +8,9 @@ exports.tabExists = async ( name = '' ) => {
     }
 }
 
-exports.tabExistsById = async (id) => {
-    const tabExists = await Tab.findByPk(id);
-
+exports.tabExistsByUuid = async (uuid) => {
+    const tabExists = await Tab.findOne( { where: { uuid } } );
+    
     if (!tabExists) {
         throw new Error('There is no tab with such id.');
     }

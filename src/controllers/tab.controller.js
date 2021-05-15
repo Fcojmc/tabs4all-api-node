@@ -1,4 +1,4 @@
-const { Tab } = require('../models');
+const { Tab, User } = require('../models');
 
 /**
  * Método para crear tablaturas
@@ -7,10 +7,12 @@ const { Tab } = require('../models');
  * @returns {Response.json}
  */
 exports.createTab = async (req, res) => {
-    const { name, content, url_yt, userId } = req.body;
+    const { name, content, url_yt, userUuid } = req.body;
 
     try {
-        const tab = await Tab.create({ name, content, url_yt, userId });
+        const user = await user.findOne( { where: { uuid: userUuid } } );
+
+        const tab = await Tab.create({ name, content, url_yt, userId: user.id });
 
         return res.json({
             success: true,
@@ -50,10 +52,10 @@ exports.getAllTabs = async (req, res) => {
 
 exports.getTabById = async (req, res) => {
     
-    const { id } = req.params;
+    const { uuid } = req.params;
 
     try {
-        const tab = Tab.findByPk(id);
+        const tab = Tab.findOne( { where: { uuid } } );
 
         return res.json({
             success: true,
@@ -69,11 +71,11 @@ exports.getTabById = async (req, res) => {
 
 exports.updateTab = async (req, res) => {
 
-    const { id } = req.params;
+    const { uuid } = req.params;
     const { name, content, url_yt } = req.body;
 
     try {
-        const tab = await Tab.findByPk(id);
+        const tab = await Tab.findOne( { where: { uuid } } );
 
         await tab.update(name, content, url_yt);
 
@@ -90,10 +92,10 @@ exports.updateTab = async (req, res) => {
 
 exports.deleteTab =  async (req, res) => {
     
-    const { id } = req.params;
+    const { uuid } = req.params;
 
     try {
-        const tab = await Tab.findByPk(id);
+        const tab = await Tab.findOne( { where: { uuid } } );
 
         await tab.destroy();
         

@@ -19,10 +19,10 @@ exports.createBand = async (req, res) => {
 //GET ALL BANDS todo
 
 exports.getBandById = async (req, res) => {
-    const { id } = req.params
+    const { uuid } = req.params
 
     try {
-        const band = await Band.findByPk(id);
+        const band = await Band.findOne( { where: { uuid } } );
 
         return res.json({
             succes: true,
@@ -36,11 +36,11 @@ exports.getBandById = async (req, res) => {
 }
 
 exports.updateBand = async (req, res) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
     const { body } = req.body;
 
     try {
-        const band = await Band.findBypk(id);
+        const band = await Band.findOne( { where: { uuid } } );
 
         await band.update(body);
         
@@ -56,17 +56,11 @@ exports.updateBand = async (req, res) => {
 }
 
 exports.deleteBand = async (req, res) => {
-    const { id } = req.params;
+    const { uuid } = req.params;
 
     try {
-        const band = await Band.findBypk(id);
+        const band = await Band.findOne( { where: { uuid } } );
 
-        if (!band) {
-            res.status(404).json({
-                success: false,
-                message: 'There is no band with such id.'
-            });
-        }
 
         await band.destroy();
         

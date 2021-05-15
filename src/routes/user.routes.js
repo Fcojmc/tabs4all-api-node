@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { fieldValidator } = require('../middlewares/field-validator');
-const { emailExists, userExistsById } = require('../helpers/user.validator');
+const { emailExists, userExists } = require('../helpers/user.validator');
 const { registerUser, getUserInfo, updateUser } = require('../controllers/user.controller');
 
 /**
@@ -22,13 +22,13 @@ router.post('/users/register', [
     fieldValidator
 ], registerUser);
 
-router.get('/users/:id', [
-    check('id').custom(userExistsById),
+router.get('/users/:uuid', [
+    check('uuid').custom(userExists),
     fieldValidator
 ], getUserInfo);
 
-router.put('/users/update/:id', [
-    check('id').custom(userExistsById),
+router.put('/users/update/:uuid', [
+    check('uuid').custom(userExists),
     check('name', 'Name must not be empty.').not().isEmpty(),
     fieldValidator
 ], updateUser);

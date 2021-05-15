@@ -5,7 +5,7 @@ const {createSongs} = require('../controllers/song.controller');
  */
 const router = Router();
 
-router.post('/songs/create', createSongs);
+router.post('/songs/scraper/:uuid', createSongs);
 
 
 module.exports = router;

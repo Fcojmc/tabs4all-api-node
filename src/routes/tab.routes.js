@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { fieldValidator } = require('../middlewares/field-validator');
-const { tabExists, tabExistsById } = require('../helpers/tab.validator');
+const { tabExists, tabExistsByUuid } = require('../helpers/tab.validator');
 
 const { createTab, 
         getAllTabs, 
@@ -16,8 +16,8 @@ const router = Router();
  */
 router.get('/tabs/all', getAllTabs);
 
-router.get('/tabs/:id', [
-    check('id').custom(tabExistsById),
+router.get('/tabs/:uuid', [
+    check('uuid').custom(tabExistsByUuid),
     fieldValidator
 ], getTabById);
 
@@ -28,15 +28,15 @@ router.post('/tabs/create', [
     fieldValidator
 ], createTab);
 
-router.put('/tabs/update/:id', [
-    check('id').custom(tabExistsById),
+router.put('/tabs/update/:uuid', [
+    check('uuid').custom(tabExistsByUuid),
     check('name', 'Name of the tab must not be empty').not().isEmpty(),
     check('content', 'Tab content must not be empty.').not().isEmpty(),
     fieldValidator
 ], updateTab);
 
-router.delete('/tabs/delete/:id', [
-    check('id').custom(tabExistsById),
+router.delete('/tabs/delete/:uuid', [
+    check('uuid').custom(tabExistsByUuid),
     fieldValidator
 ], deleteTab);
 

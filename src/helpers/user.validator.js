@@ -9,10 +9,12 @@ exports.emailExists = async ( email = '') => {
      }
 }
 
-exports.userExistsById = async (id) => {
-    const userExists = await User.findByPk(id);
+
+exports.userExists = async (uuid) => {
+    const userExists = await User.findOne( { where: { uuid } } );
 
     if (!userExists) {
-        throw new Error(`There is no user with id: ${id}`);
+        throw new Error(`There is no user with uuid: ${uuid}`);
     }
 }
+

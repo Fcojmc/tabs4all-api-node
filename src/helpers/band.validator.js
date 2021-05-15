@@ -8,9 +8,8 @@ exports.bandExists = async ( name = '' ) => {
     }
 }
 
-
-exports.bandExistsById = async (id) => {
-    const bandExists = await Band.findByPk(id);
+exports.bandExistsByUuid = async (uuid) => {
+    const bandExists = await Band.findOne( { where: { uuid: uuid } } );
 
     if (!bandExists) {
         throw new Error(`There is no band with id: ${id}`);

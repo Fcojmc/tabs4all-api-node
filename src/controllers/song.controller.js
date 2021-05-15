@@ -1,13 +1,14 @@
 const cheerio = require('cheerio');
 const requestPromise = require('request-promise');
-const { Song } = require('../models');
+const { Song, Band } = require('../models');
 
 
 exports.createSongs = async (req = request, res = response) => {
-    const { bandId, name } = req.body;
+    const { uuid  } = req.params;
 
     try {
-        let bandName = encodeURIComponent(name) ;
+        const band = await Band.findOne({ where: { uuid } });
+        const bandName = encodeURIComponent(band.name);
         const bandUrl = `https://www.songsterr.com/?pattern=${bandName}`;
         
         const htmlResult = await requestPromise.get(bandUrl);
@@ -16,12 +17,12 @@ exports.createSongs = async (req = request, res = response) => {
         $('.C052ub').children('.Beifj').each( async (index, element) => {
             const link = 'https://www.songsterr.com' + $(element).attr("href");
             const songName = $(element).children('.Bei2e1').children('.Beiqi').text();
-            await Song.create({ name: songName, url: link, bandId });
+            await Song.create({ name: songName, url: link, bandId: band.id });
         });
         
         return res.json({
             success: true,
-            message: `Loaded songs for band ${req.body.name}`
+            message: `Loaded songs for band ${band.name}`
         }); 
 
     } catch (error) {

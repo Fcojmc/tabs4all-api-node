@@ -11,10 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Band }) {
       // define association here
-      this.belongsTo(Band, { foreignKey: 'bandId', as: 'band' });
+      this.belongsTo(Band, { 
+        foreignKey: 'bandId', as: 'band',
+        onDelete: 'CASCADE' 
+      });
+    }
+
+    toJSON() {
+      return { ...this.get(), id: undefined }
     }
   };
   Song.init({
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false

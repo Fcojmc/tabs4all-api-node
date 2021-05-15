@@ -36,10 +36,10 @@ exports.registerUser = async (req, res) => {
  */
 exports.getUserInfo = async (req, res) => {
     
-    const { id } = req.params;
+    const { uuid } = req.params;
 
     try{
-        const user = await User.findByPk(id);
+        const user = await User.findOne( { where: { uuid } } );
 
         return res.json({
             status: 'Success',
@@ -61,11 +61,11 @@ exports.getUserInfo = async (req, res) => {
  */
 exports.updateUser = async (req, res) => {
 
-    const { id } = req.params;
+    const { uuid } = req.params;
     const { body } = req.body;
 
     try {
-        const user = await User.findByPk(id);
+        const user = await User.findOne( { where: { uuid } } );
 
         await user.update(body);
 
