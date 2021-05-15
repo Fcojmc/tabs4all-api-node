@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('../models');
+const { User } = require('../db/models');
 /**
  * Método para registrar usuario
  * @param {Request} req  

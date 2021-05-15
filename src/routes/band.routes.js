@@ -2,7 +2,12 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { fieldValidator } = require('../middlewares/field-validator');
 const { bandExists, bandExistsByUuid } = require('../helpers/band.validator');
-const { createBand, updateBand, deleteBand , getBandById} = require('../controllers/band.controller');
+
+const { getAllBands,
+        getBandById,
+        createBand,
+        deleteBand,
+        updateBand } = require('../controllers/band.controller');
 
 /**
  * Router de express
@@ -12,6 +17,9 @@ const router = Router();
  /**
  * Rutas de los metodos de grupos
  */
+
+router.get('/bands/all', getAllBands);
+
 router.get('/bands/:uuid', [
     check('uuid').custom(bandExistsByUuid),
     fieldValidator

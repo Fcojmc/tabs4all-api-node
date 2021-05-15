@@ -1,4 +1,4 @@
-const { Tab, User } = require('../models');
+const { Tab, User } = require('../db/models');
 
 /**
  * Método para crear tablaturas
@@ -10,7 +10,7 @@ exports.createTab = async (req, res) => {
     const { name, content, url_yt, userUuid } = req.body;
 
     try {
-        const user = await user.findOne( { where: { uuid: userUuid } } );
+        const user = await User.findOne( { where: { uuid: userUuid } } );
 
         const tab = await Tab.create({ name, content, url_yt, userId: user.id });
 

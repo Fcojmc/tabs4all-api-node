@@ -1,4 +1,4 @@
-const { Band } = require('../models');
+const { Band } = require('../db/models');
 
 exports.bandExists = async ( name = '' ) => {
     const bandExists = await Band.findOne( { where: { name } });

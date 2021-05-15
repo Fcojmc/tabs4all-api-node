@@ -1,4 +1,4 @@
-const { Tab } = require('../models');
+const { Tab } = require('../db/models');
 
 exports.tabExists = async ( name = '' ) => {
     const tabExists = await Tab.findOne( { where: { name } } );

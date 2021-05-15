@@ -1,9 +1,9 @@
 const cheerio = require('cheerio');
 const requestPromise = require('request-promise');
-const { Song, Band } = require('../models');
+const { Song, Band } = require('../db/models');
 
 
-exports.createSongs = async (req = request, res = response) => {
+exports.createSongs = async (req, res) => {
     const { uuid  } = req.params;
 
     try {

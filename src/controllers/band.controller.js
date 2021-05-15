@@ -1,4 +1,4 @@
-const { Band } = require('../models');
+const { Band, Song } = require('../db/models');
 
 exports.createBand = async (req, res) => {
     const { name, url_yt } = req.body;
@@ -16,16 +16,31 @@ exports.createBand = async (req, res) => {
     }
 }
 
-//GET ALL BANDS todo
+exports.getAllBands = async (req, res) => {
+
+    try {
+        const bands = await Band.findAll();
+        
+        return res.json({
+            success: true,
+            message: 'All bands.',
+            data: bands
+        });
+
+    } catch (error) {
+        console.log(error);
+        throw new Error(error.message);
+    }
+}
 
 exports.getBandById = async (req, res) => {
     const { uuid } = req.params
 
     try {
-        const band = await Band.findOne( { where: { uuid } } );
+        const band = await Band.findOne( { where: { uuid }, include: 'songs' } );
 
         return res.json({
-            succes: true,
+            success: true,
             message: 'Band found',
             data: band
         });
