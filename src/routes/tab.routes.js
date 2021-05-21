@@ -1,27 +1,23 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator } = require('../middlewares/field-validator');
+const { fieldValidator, validateJWT, loginVerifier } = require('../middlewares');
 const { tabExists, tabExistsByUuid } = require('../helpers/tab.validator');
-
-const { createTab, 
-        getAllTabs, 
-        getTabById,
-        updateTab,
-        deleteTab } = require('../controllers/tab.controller');
+const { createTab, getAllTabs, getTabById, updateTab, deleteTab } = require('../controllers/tab.controller');
 
 const router = Router();
 
-/**
- * Rutas de los metodos de tablaturas
- */
 router.get('/tabs/all', getAllTabs);
 
 router.get('/tabs/:uuid', [
+    validateJWT,
+    loginVerifier,
     check('uuid').custom(tabExistsByUuid),
     fieldValidator
 ], getTabById);
 
 router.post('/tabs/create', [
+    validateJWT,
+    loginVerifier,
     check('name', 'Name must not be empty.').not().isEmpty(),
     check('name').custom(tabExists),
     check('content', 'Tab content must not be empty.'),
@@ -29,6 +25,8 @@ router.post('/tabs/create', [
 ], createTab);
 
 router.put('/tabs/update/:uuid', [
+    validateJWT,
+    loginVerifier,
     check('uuid').custom(tabExistsByUuid),
     check('name', 'Name of the tab must not be empty').not().isEmpty(),
     check('content', 'Tab content must not be empty.').not().isEmpty(),
@@ -36,6 +34,8 @@ router.put('/tabs/update/:uuid', [
 ], updateTab);
 
 router.delete('/tabs/delete/:uuid', [
+    validateJWT,
+    loginVerifier,
     check('uuid').custom(tabExistsByUuid),
     fieldValidator
 ], deleteTab);

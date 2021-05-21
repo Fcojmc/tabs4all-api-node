@@ -1,18 +1,18 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator } = require('../middlewares/field-validator');
+const { fieldValidator, validateJWT, loginVerifier, isAdminRole } = require('../middlewares');
 const { bandExistsByUuid } = require('../helpers/band.validator');
 
-const { createSongs } = require('../controllers/song.controller');
+const { songScraper } = require('../controllers/song.controller');
 
-/**
- * Router de express
- */
 const router = Router();
 
 router.post('/songs/scraper/:uuid', [
+    validateJWT,
+    loginVerifier,
+    isAdminRole,
     check('uuid').custom(bandExistsByUuid),
     fieldValidator
-], createSongs);
+], songScraper);
 
 module.exports = router;

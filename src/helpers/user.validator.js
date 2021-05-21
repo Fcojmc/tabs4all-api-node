@@ -1,7 +1,7 @@
 const { User } = require('../db/models');
 
 
-exports.emailExists = async ( email = '') => {
+const emailExists = async ( email = '') => {
      const emailExists = await User.findOne({ where: { email } });
 
      if (emailExists) {
@@ -10,7 +10,7 @@ exports.emailExists = async ( email = '') => {
 }
 
 
-exports.userExists = async (uuid) => {
+const userExists = async (uuid) => {
     const userExists = await User.findOne( { where: { uuid } } );
 
     if (!userExists) {
@@ -18,3 +18,4 @@ exports.userExists = async (uuid) => {
     }
 }
 
+module.exports = { emailExists, userExists }

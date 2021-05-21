@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 
-exports.fieldValidator = (req, res, next) => {
+const fieldValidator = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -9,3 +9,5 @@ exports.fieldValidator = (req, res, next) => {
 
     next();
 }
+
+module.exports = { fieldValidator }

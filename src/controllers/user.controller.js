@@ -1,11 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { User } = require('../db/models');
-/**
- * Método para registrar usuario
- * @param {Request} req  
- * @param {Response} res 
- * @returns {Response.json}
- */
+
 exports.registerUser = async (req, res) => {
 
     const { name, email, password } = req.body;
@@ -24,16 +19,10 @@ exports.registerUser = async (req, res) => {
 
     } catch(err) {
         console.log(err);
-        throw new Error(err.message);
+        throw new Error('Error trying to create an account.');
     }
 }
 
-/**
- * Método para obtener datos de un usuario
- * @param {*} req request
- * @param {*} res response
- * @returns jsonResponse
- */
 exports.getUserInfo = async (req, res) => {
     
     const { uuid } = req.params;
@@ -49,16 +38,10 @@ exports.getUserInfo = async (req, res) => {
         
     } catch(err) {
         console.log(err);
-        throw new Error(err.message);
+        throw new Error('Error trying to get user info.');
     }
 }
 
-/**
- * Método para actualizar un usuario
- * @param {*} req request
- * @param {*} res response
- * @returns jsonResponse
- */
 exports.updateUser = async (req, res) => {
 
     const { uuid } = req.params;
@@ -76,6 +59,6 @@ exports.updateUser = async (req, res) => {
         
     } catch(error) {
         console.log(error);
-        throw new Error(error.message);
+        throw new Error('Error trying to update an user.');
     }
 }

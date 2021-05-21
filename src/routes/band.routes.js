@@ -9,14 +9,7 @@ const { getAllBands,
         deleteBand,
         updateBand } = require('../controllers/band.controller');
 
-/**
- * Router de express
- */
 const router = Router();
-
- /**
- * Rutas de los metodos de grupos
- */
 
 router.get('/bands/all', getAllBands);
 

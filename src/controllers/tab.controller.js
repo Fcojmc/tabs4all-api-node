@@ -1,11 +1,5 @@
 const { Tab, User } = require('../db/models');
 
-/**
- * Método para crear tablaturas
- * @param {Request} req 
- * @param {Response} res 
- * @returns {Response.json}
- */
 exports.createTab = async (req, res) => {
     const { name, content, url_yt, userUuid } = req.body;
 
@@ -22,71 +16,7 @@ exports.createTab = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        throw new Error(error.message);
-    }
-}
-
-/**
- * Método para obtener los datos de todas las tablaturas
- * @param {Request} req 
- * @param {Response} res 
- * @returns {Response.json}
- */
-exports.getAllTabs = async (req, res) => {
-
-    try {
-        const tabs = await Tab.findAll({ include: 'user' });
-
-        return res.json({
-            success: true,
-            message: 'All tabs',
-            data: tabs
-        });
-
-    } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
-    }
-}
-
-
-exports.getTabById = async (req, res) => {
-    
-    const { uuid } = req.params;
-
-    try {
-        const tab = Tab.findOne( { where: { uuid } } );
-
-        return res.json({
-            success: true,
-            message: 'Tab data.',
-            data: tab
-        });
-    } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
-    }
-}
-
-
-exports.updateTab = async (req, res) => {
-
-    const { uuid } = req.params;
-    const { name, content, url_yt } = req.body;
-
-    try {
-        const tab = await Tab.findOne( { where: { uuid } } );
-
-        await tab.update(name, content, url_yt);
-
-        return res.json({
-            success: true,
-            message: 'Tab updated succesfully.',
-        });
-
-    } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
+        throw new Error('Error trying to create a tab');
     }
 }
 
@@ -106,6 +36,64 @@ exports.deleteTab =  async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        throw new Error(error.message);
+        throw new Error('Error trying to delete a tab.');
+    }
+}
+
+exports.getAllTabs = async (req, res) => {
+
+    try {
+        const tabs = await Tab.findAll({ include: 'user' });
+
+        return res.json({
+            success: true,
+            message: 'All tabs',
+            data: tabs
+        });
+
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error trying to get all tabs.');
+    }
+}
+
+
+exports.getTabById = async (req, res) => {
+    
+    const { uuid } = req.params;
+
+    try {
+        const tab = Tab.findOne( { where: { uuid } } );
+
+        return res.json({
+            success: true,
+            message: 'Tab data.',
+            data: tab
+        });
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error trying to get a single tab.');
+    }
+}
+
+
+exports.updateTab = async (req, res) => {
+
+    const { uuid } = req.params;
+    const { name, content, url_yt } = req.body;
+
+    try {
+        const tab = await Tab.findOne( { where: { uuid } } );
+
+        await tab.update({ name, content, url_yt });
+
+        return res.json({
+            success: true,
+            message: 'Tab updated succesfully.',
+        });
+
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error trying to update a tab.');
     }
 }

@@ -1,17 +1,13 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator } = require('../middlewares/field-validator');
+const { fieldValidator, validateJWT, loginVerifier } = require('../middlewares');
 const { emailExists, userExists } = require('../helpers/user.validator');
+
+
 const { registerUser, getUserInfo, updateUser } = require('../controllers/user.controller');
 
-/**
- * Router de express
- */
 const router = Router();
 
-/**
- * Rutas de los metodos de usuario
- */
 router.post('/users/register', [
     check('name', 'Name must not be empty.').not().isEmpty(),
     check('password', 'Password must not be empty').not().isEmpty(),
@@ -23,11 +19,15 @@ router.post('/users/register', [
 ], registerUser);
 
 router.get('/users/:uuid', [
+    validateJWT,
+    loginVerifier,
     check('uuid').custom(userExists),
     fieldValidator
 ], getUserInfo);
 
 router.put('/users/update/:uuid', [
+    validateJWT,
+    loginVerifier,
     check('uuid').custom(userExists),
     check('name', 'Name must not be empty.').not().isEmpty(),
     fieldValidator

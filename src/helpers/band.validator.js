@@ -1,6 +1,6 @@
 const { Band } = require('../db/models');
 
-exports.bandExists = async ( name = '' ) => {
+const bandExists = async ( name = '' ) => {
     const bandExists = await Band.findOne( { where: { name } });
 
     if (bandExists) {
@@ -8,10 +8,12 @@ exports.bandExists = async ( name = '' ) => {
     }
 }
 
-exports.bandExistsByUuid = async (uuid) => {
+const bandExistsByUuid = async (uuid) => {
     const bandExists = await Band.findOne( { where: { uuid: uuid } } );
 
     if (!bandExists) {
         throw new Error(`There is no band with id: ${id}`);
     }
 }
+
+module.exports = { bandExists, bandExistsByUuid }
