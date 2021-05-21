@@ -1,5 +1,7 @@
 const { Router } = require('express');
 
+const { validateJWT, loginVerifier } = require('../middlewares');
+
 const { setFavouriteBands,
         unsetFavouriteBands,
         setFavouriteTabs,
@@ -7,12 +9,24 @@ const { setFavouriteBands,
 
 const router = Router();
 
-router.post('/user-favourites/bands', setFavouriteBands);
+router.post('/user-favourites/bands', [
+    validateJWT,
+    loginVerifier
+], setFavouriteBands);
 
-router.post('/user-favourites/tabs', setFavouriteTabs);
+router.post('/user-favourites/tabs', [
+    validateJWT,
+    loginVerifier
+], setFavouriteTabs);
 
-router.delete('/user-favourites/bands', unsetFavouriteBands);
+router.delete('/user-favourites/bands', [
+    validateJWT,
+    loginVerifier
+], unsetFavouriteBands);
 
-router.delete('/user-favourites/tabs', unsetFavouriteTabs);
+router.delete('/user-favourites/tabs', [
+    validateJWT,
+    loginVerifier
+], unsetFavouriteTabs);
 
 module.exports = router;

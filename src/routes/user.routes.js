@@ -1,10 +1,15 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator, validateJWT, loginVerifier } = require('../middlewares');
 const { emailExists, userExists } = require('../helpers/user.validator');
 
+const { fieldValidator, 
+        validateJWT, 
+        loginVerifier } = require('../middlewares');
 
-const { registerUser, getUserInfo, updateUser } = require('../controllers/user.controller');
+
+const { registerUser, 
+        getUserInfo, 
+        updateUser } = require('../controllers/user.controller');
 
 const router = Router();
 

@@ -1,12 +1,23 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator, validateJWT, loginVerifier } = require('../middlewares');
 const { tabExists, tabExistsByUuid } = require('../helpers/tab.validator');
-const { createTab, getAllTabs, getTabById, updateTab, deleteTab } = require('../controllers/tab.controller');
+
+const { createTab, 
+        getAllTabs, 
+        getTabById, 
+        updateTab, 
+        deleteTab } = require('../controllers/tab.controller');
+
+const { fieldValidator, 
+        validateJWT, 
+        loginVerifier } = require('../middlewares');
 
 const router = Router();
 
-router.get('/tabs/all', getAllTabs);
+router.get('/tabs/all', [
+    validateJWT,
+    loginVerifier
+], getAllTabs);
 
 router.get('/tabs/:uuid', [
     validateJWT,
