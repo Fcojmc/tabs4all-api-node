@@ -6,7 +6,6 @@ const { fieldValidator,
         validateJWT, 
         loginVerifier } = require('../middlewares');
 
-
 const { registerUser, 
         getUserInfo, 
         updateUser } = require('../controllers/user.controller');

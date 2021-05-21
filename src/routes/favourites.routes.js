@@ -1,5 +1,4 @@
 const { Router } = require('express');
-
 const { validateJWT, loginVerifier } = require('../middlewares');
 
 const { setFavouriteBands,

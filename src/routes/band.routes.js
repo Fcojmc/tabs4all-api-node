@@ -8,7 +8,6 @@ const { fieldValidator,
         loginVerifier,
         isAdminRole } = require('../middlewares');
 
-
 const { getAllBands,
         getBandById,
         createBand,
