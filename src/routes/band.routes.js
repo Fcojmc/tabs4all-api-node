@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { fieldValidator } = require('../middlewares/field-validator');
 const { bandExists, bandExistsByUuid } = require('../helpers/band.validator');
 
 const { fieldValidator, 

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UsersBands.init({
-   
+    
   }, {
     sequelize,
     modelName: 'UsersBands',

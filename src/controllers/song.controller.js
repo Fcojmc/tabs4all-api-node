@@ -3,7 +3,7 @@ const requestPromise = require('request-promise');
 const { Song, Band } = require('../db/models');
 
 
-exports.songScraper = async (req, res) => {
+exports.songScraper = async (req, res, next) => {
     const { uuid  } = req.params;
 
     try {
@@ -26,8 +26,7 @@ exports.songScraper = async (req, res) => {
         }); 
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to scrap songs.');
+        next(error);
     }
     
 }

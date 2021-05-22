@@ -1,6 +1,7 @@
+const { next } = require('cheerio/lib/api/traversing');
 const { User, Band, Tab, UsersBands, UsersTabs } = require('../db/models');
 
-exports.setFavouriteBands = async (req, res) => {
+exports.setFavouriteBands = async (req, res, next) => {
 
     const { userUuid, bandUuid } = req.body;
 
@@ -16,12 +17,11 @@ exports.setFavouriteBands = async (req, res) => {
         });
          
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to set favourite band.');
+        next(error);
     }
 }
 
-exports.unsetFavouriteBands = async (req, res) => {
+exports.unsetFavouriteBands = async (req, res, next) => {
     
     const { userUuid, bandUuid } = req.body;
     
@@ -42,12 +42,11 @@ exports.unsetFavouriteBands = async (req, res) => {
         });
     
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to unset favourite band.');
+        next(error);
     }
 }
 
-exports.setFavouriteTabs = async (req, res) => {
+exports.setFavouriteTabs = async (req, res, next) => {
 
     const { userUuid, tabUuid } = req.body;
 
@@ -63,12 +62,11 @@ exports.setFavouriteTabs = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to set favourite tab.');
+        next(error);
     }
 }
 
-exports.unsetFavouriteTabs = async (req, res) => {
+exports.unsetFavouriteTabs = async (req, res, next) => {
 
     const { userUuid, tabUuid } = req.body;
 
@@ -89,7 +87,6 @@ exports.unsetFavouriteTabs = async (req, res) => {
         });
         
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to unset favourite tab.');
+        next(error);
     }
 }

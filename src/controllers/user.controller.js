@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const { User } = require('../db/models');
 
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
 
     const { name, email, password } = req.body;
 
@@ -16,14 +16,13 @@ exports.registerUser = async (req, res) => {
             message: 'Account registered',
             data: user
         });
-
+        
     } catch(err) {
-        console.log(err);
-        throw new Error('Error trying to create an account.');
+        next(error);
     }
 }
 
-exports.getUserInfo = async (req, res) => {
+exports.getUserInfo = async (req, res, next) => {
     
     const { uuid } = req.params;
 
@@ -31,21 +30,20 @@ exports.getUserInfo = async (req, res) => {
         const user = await User.findOne( { where: { uuid } } );
 
         return res.json({
-            status: 'Success',
+            success: true,
             message: 'User info',
             data: user
          });
         
     } catch(err) {
-        console.log(err);
-        throw new Error('Error trying to get user info.');
+        next(error);
     }
 }
 
-exports.updateUser = async (req, res) => {
+exports.updateUser = async (req, res, next) => {
 
     const { uuid } = req.params;
-    const { body } = req.body;
+    const data = req.body.data;
 
     try {
         const user = await User.findOne( { where: { uuid } } );
@@ -58,7 +56,6 @@ exports.updateUser = async (req, res) => {
         });
         
     } catch(error) {
-        console.log(error);
-        throw new Error('Error trying to update an user.');
+        next(error);
     }
 }

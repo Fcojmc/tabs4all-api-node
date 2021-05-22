@@ -1,6 +1,7 @@
+const { next } = require('cheerio/lib/api/traversing');
 const { Tab, User } = require('../db/models');
 
-exports.createTab = async (req, res) => {
+exports.createTab = async (req, res, next) => {
     const { name, content, url_yt, userUuid } = req.body;
 
     try {
@@ -15,12 +16,11 @@ exports.createTab = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to create a tab');
+        next(error);
     }
 }
 
-exports.deleteTab =  async (req, res) => {
+exports.deleteTab =  async (req, res, next) => {
     
     const { uuid } = req.params;
 
@@ -35,12 +35,11 @@ exports.deleteTab =  async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to delete a tab.');
+        next(error);
     }
 }
 
-exports.getAllTabs = async (req, res) => {
+exports.getAllTabs = async (req, res, next) => {
 
     try {
         const tabs = await Tab.findAll({ include: 'user' });
@@ -52,13 +51,12 @@ exports.getAllTabs = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to get all tabs.');
+        next(error);
     }
 }
 
 
-exports.getTabById = async (req, res) => {
+exports.getTabById = async (req, res, next) => {
     
     const { uuid } = req.params;
 
@@ -71,13 +69,12 @@ exports.getTabById = async (req, res) => {
             data: tab
         });
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to get a single tab.');
+        next(error);
     }
 }
 
 
-exports.updateTab = async (req, res) => {
+exports.updateTab = async (req, res, next) => {
 
     const { uuid } = req.params;
     const { name, content, url_yt } = req.body;
@@ -93,7 +90,6 @@ exports.updateTab = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to update a tab.');
+        next(error);
     }
 }

@@ -1,27 +1,26 @@
+const { ApiError } = require('../error/api.error');
 const { Band } = require('../db/models');
 
-exports.createBand = async (req, res) => {
+exports.createBand = async (req, res, next) => {
     const { name, url_yt } = req.body;
 
     try {
-        const band = await Band.create({name, url_yt});
+        await Band.create({name, url_yt});
 
         return res.json({
             success: true,
             message: `Band ${name} created.`,
         });
     } catch(error) {
-        console.log(error);
-        throw new Error('Error trying to create a band.');
+        next(error);
     }
 }
 
-exports.deleteBand = async (req, res) => {
+exports.deleteBand = async (req, res, next) => {
     const { uuid } = req.params;
 
     try {
         const band = await Band.findOne( { where: { uuid } } );
-
 
         await band.destroy();
         
@@ -30,12 +29,11 @@ exports.deleteBand = async (req, res) => {
             message: `Band deleted!`
         });
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to delete a band.');
+        next(error);
     }
 }
 
-exports.getAllBands = async (req, res) => {
+exports.getAllBands = async (req, res, next) => {
 
     try {
         const bands = await Band.findAll();
@@ -47,12 +45,12 @@ exports.getAllBands = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to get all tabs.');
+        next(ApiError.internal());
+        return;
     }
 }
 
-exports.getBandById = async (req, res) => {
+exports.getBandById = async (req, res, next) => {
     const { uuid } = req.params
 
     try {
@@ -64,12 +62,11 @@ exports.getBandById = async (req, res) => {
             data: band
         });
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to get a single band.');
+        next(error);
     }
 }
 
-exports.updateBand = async (req, res) => {
+exports.updateBand = async (req, res, next) => {
     const { uuid } = req.params;
     const { name, url_yt } = req.body;
 
@@ -84,7 +81,6 @@ exports.updateBand = async (req, res) => {
         });
         
     } catch (error) {
-        console.log(error);
-        throw new Error('Error trying to update a band.');
+       next(error);
     }
 }

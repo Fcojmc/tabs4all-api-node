@@ -14,14 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   UsersTabs.init({
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    tabId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    }
+    
   }, {
     sequelize,
     modelName: 'UsersTabs',
