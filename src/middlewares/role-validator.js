@@ -1,8 +1,10 @@
+const { ApiError } = require('../error/api.error');
 
 const isAdminRole = (req, res, next) => {
 
     if (!req.user_verified.is_admin) {
-        throw new Error('Not admin');
+        next(ApiError.unauthorized());
+        return;
     }
 
     next();

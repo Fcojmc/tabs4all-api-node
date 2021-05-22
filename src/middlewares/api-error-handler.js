@@ -8,9 +8,10 @@ const apiErrorHandler = (error, req, res, next) => {
                 message: error.message
             }
         });
+        console.log(error);
         return;
     }
-
+    console.log(error);
     res.status(500).json({
         error: {
             message: 'Something went wrong, contact administrator.'

@@ -1,8 +1,10 @@
+const { ApiError } = require('../error/api.error');
 
 const loginVerifier = (req, res, next) => {
 
     if (!req.user_verified) {
-        throw new Error('Token not verified');
+       next(ApiError.badRequest(401, 'Token not verified.'));
+       return;
     }
 
     next();

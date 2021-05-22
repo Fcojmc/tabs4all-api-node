@@ -1,27 +1,22 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../db/models');
+const { ApiError } = require('../error/api.error');
 
 const validateJWT = async (req, res, next) => {
 
     const token = req.header('x-auth-token');
 
-    if (!token) {
-        return res.status(401).json({
-            success: false,
-            message: 'Unauthorized'
-        });
-    }
-
     try {
+        if (!token) {
+           throw new ApiError(401, 'Unauthorized');
+        }
+    
         const { uuid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
         
         const user = await User.findOne({ where: { uuid } });
 
         if (!user) {
-           return res.status(401).json({
-               success: false,
-               message: 'Invalid token'
-           });
+           throw new ApiError(401, 'Invalid token');
         }
         
         const userVerified = {
@@ -35,8 +30,7 @@ const validateJWT = async (req, res, next) => {
         next();
         
     } catch (error) {
-        console.log(error);
-        throw new Error('Invalid auth');
+        next(error);
     }
 }
 

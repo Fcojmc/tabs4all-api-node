@@ -1,4 +1,3 @@
-const { ApiError } = require('../error/api.error');
 const { Band } = require('../db/models');
 
 exports.createBand = async (req, res, next) => {
@@ -45,8 +44,7 @@ exports.getAllBands = async (req, res, next) => {
         });
 
     } catch (error) {
-        next(ApiError.internal());
-        return;
+        next(error);
     }
 }
 

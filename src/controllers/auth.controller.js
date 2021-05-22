@@ -11,15 +11,13 @@ exports.login = async (req, res, next) => {
         const user = await User.findOne({ where: { email } });
         
         if (!user) {
-            next(ApiError.badRequest(`Email does not match.`));
-            return;
+            throw new ApiError(400, 'Email does not match.');
         }
 
         const validPassword = bcryptjs.compareSync(password, user.password);
 
         if (!validPassword) {
-            next(ApiError.badRequest('Password does not match.'));
-            return;
+            throw new ApiError(400, 'Password does not match.');
         }
 
         const token = await generateJWT( user.uuid );
@@ -30,6 +28,6 @@ exports.login = async (req, res, next) => {
             data: token
         });
     } catch (error) {
-        next(error);
+        next(error);   
     }
 }

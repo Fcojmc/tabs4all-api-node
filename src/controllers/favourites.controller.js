@@ -1,4 +1,3 @@
-const { next } = require('cheerio/lib/api/traversing');
 const { User, Band, Tab, UsersBands, UsersTabs } = require('../db/models');
 
 exports.setFavouriteBands = async (req, res, next) => {

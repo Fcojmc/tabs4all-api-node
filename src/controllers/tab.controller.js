@@ -1,4 +1,3 @@
-const { next } = require('cheerio/lib/api/traversing');
 const { Tab, User } = require('../db/models');
 
 exports.createTab = async (req, res, next) => {
