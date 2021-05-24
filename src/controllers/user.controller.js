@@ -1,6 +1,13 @@
 const bcrypt = require('bcryptjs');
 const { User } = require('../db/models');
 
+/**
+ * Método para crear un usuario
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.registerUser = async (req, res, next) => {
 
     const { name, email, password } = req.body;
@@ -16,12 +23,18 @@ exports.registerUser = async (req, res, next) => {
             message: 'Account registered',
             data: user
         });
-        
     } catch(err) {
         next(error);
     }
 }
 
+/**
+ * Método para obtener la información de un usuario
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.getUserInfo = async (req, res, next) => {
     
     const { uuid } = req.params;
@@ -34,12 +47,18 @@ exports.getUserInfo = async (req, res, next) => {
             message: 'User info',
             data: user
          });
-        
     } catch(err) {
         next(error);
     }
 }
 
+/**
+ * Método para actualizar un usuario
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.updateUser = async (req, res, next) => {
 
     const { uuid } = req.params;
@@ -54,7 +73,6 @@ exports.updateUser = async (req, res, next) => {
             success: true,
             message: 'User info updated succesfully'
         });
-        
     } catch(error) {
         next(error);
     }

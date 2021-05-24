@@ -1,4 +1,5 @@
 const { User, Band, Tab, UsersBands, UsersTabs } = require('../db/models');
+const { ApiError } = require('../error/api.error');
 
 exports.setFavouriteBands = async (req, res, next) => {
 
@@ -8,6 +9,10 @@ exports.setFavouriteBands = async (req, res, next) => {
         const user = await User.findOne({ where: { uuid: userUuid } });
         const band = await Band.findOne({ where: { uuid: bandUuid } });
        
+        if (!user || !band) {
+            throw ApiError.badRequest(`There was a problem trying to add band to favourites`);
+        }
+        
         await user.addFavouriteBand(band);
         
         return res.json({
@@ -27,6 +32,10 @@ exports.unsetFavouriteBands = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { uuid: userUuid } });
         const band = await Band.findOne({ where: { uuid: bandUuid } });
+
+        if (!user || !band) {
+            throw ApiError.badRequest(`There was a problem trying to delete band from favourites`);
+        }
 
         await UsersBands.destroy({
             where: {
@@ -53,7 +62,11 @@ exports.setFavouriteTabs = async (req, res, next) => {
         const user = await User.findOne({ where: { uuid: userUuid } });
         const tab = await Tab.findOne({ where: { uuid: tabUuid } });
 
-        await User.addFavouriteTab(tab);
+        if (!user || !tab) {
+            throw ApiError.badRequest(`There was a problem trying to add tab to favourites`);
+        }
+
+        await user.addFavouriteTab(tab);
 
         return res.json({
             success: true,
@@ -72,6 +85,10 @@ exports.unsetFavouriteTabs = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { uuid: userUuid } });
         const tab = await Tab.findOne({where: { uuid: tabUuid } });
+
+        if (!user || !tab) {
+            throw ApiError.badRequest(`There was a problem trying to delete tab from favourites`);
+        }
 
         await UsersTabs.destroy({
             where: {

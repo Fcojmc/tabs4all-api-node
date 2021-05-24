@@ -1,5 +1,9 @@
 const { Band } = require('../db/models');
 
+/**
+ * Función validadora para express-validator
+ * @param {String} name 
+ */
 const bandExists = async ( name = '' ) => {
     const bandExists = await Band.findOne( { where: { name } });
 
@@ -8,6 +12,10 @@ const bandExists = async ( name = '' ) => {
     }
 }
 
+/**
+ * Función validadora para express-validator
+ * @param {String} uuid 
+ */
 const bandExistsByUuid = async (uuid) => {
     const bandExists = await Band.findOne( { where: { uuid: uuid } } );
 

@@ -2,7 +2,14 @@ const cheerio = require('cheerio');
 const requestPromise = require('request-promise');
 const { Song, Band } = require('../db/models');
 
-
+/**
+ * Método para hacer scraping a Songsterr y obtener url
+ * de cada una de las canciones de un grupo segun su uuid
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.songScraper = async (req, res, next) => {
     const { uuid  } = req.params;
 

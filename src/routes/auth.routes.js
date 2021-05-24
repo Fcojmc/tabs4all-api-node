@@ -5,6 +5,9 @@ const { fieldValidator } = require('../middlewares/field-validator');
 
 const router = Router();
 
+/**
+ * Ruta para login
+ */
 router.post('/auth/login', [
     check('email', 'Email is mandatory.').isEmail(),
     check('password', 'Password is mandatory').not().isEmpty(),

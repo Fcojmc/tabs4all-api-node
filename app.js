@@ -12,6 +12,7 @@ const basePath = '/api';
 
 /**
  * Middlewares base
+ * @function use
  */
 app.use(express.static('public'));
 app.use(cors());
@@ -25,6 +26,7 @@ app.use(fileUpload({
 
 /**
  * Seteo de rutas
+ * @function use
  */
 app.use(basePath, require('./src/routes/auth.routes'));
 app.use(basePath, require('./src/routes/user.routes'));
@@ -35,7 +37,8 @@ app.use(basePath, require('./src/routes/favourites.routes'));
 app.use(basePath, require('./src/routes/upload.routes'));
 
 /**
- * Manejo de errores global
+ * Manejo de errores global mediante custom middleware
+ * @function apiErrorHandler
  */
  app.use(apiErrorHandler);
 

@@ -1,5 +1,12 @@
 const { Band } = require('../db/models');
 
+/**
+ * Método para crear grupos.
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.createBand = async (req, res, next) => {
     const { name, url_yt } = req.body;
 
@@ -15,6 +22,13 @@ exports.createBand = async (req, res, next) => {
     }
 }
 
+/**
+ * Método para borrar grupos.
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.deleteBand = async (req, res, next) => {
     const { uuid } = req.params;
 
@@ -32,6 +46,13 @@ exports.deleteBand = async (req, res, next) => {
     }
 }
 
+/**
+ * Método para obtener datos de todos los grupos
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.getAllBands = async (req, res, next) => {
 
     try {
@@ -48,6 +69,13 @@ exports.getAllBands = async (req, res, next) => {
     }
 }
 
+/**
+ * Método para obtener datos de un grupo por uuid
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.getBandById = async (req, res, next) => {
     const { uuid } = req.params
 
@@ -64,6 +92,13 @@ exports.getBandById = async (req, res, next) => {
     }
 }
 
+/**
+ * Método para actualizar un grupo
+ * @param {Request} req 
+ * @param {Response} res 
+ * @param {NextFunction} next 
+ * @returns {Response.json}
+ */
 exports.updateBand = async (req, res, next) => {
     const { uuid } = req.params;
     const { name, url_yt } = req.body;

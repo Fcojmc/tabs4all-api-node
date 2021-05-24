@@ -1,5 +1,9 @@
 const { Tab } = require('../db/models');
 
+/**
+ * Función validadora para express-validator
+ * @param {String} name 
+ */
 const tabExists = async ( name = '' ) => {
     const tabExists = await Tab.findOne( { where: { name } } );
 
@@ -8,6 +12,10 @@ const tabExists = async ( name = '' ) => {
     }
 }
 
+/**
+ * Función validadora para express-validator
+ * @param {String} uuid 
+ */
 const tabExistsByUuid = async (uuid) => {
     const tabExists = await Tab.findOne( { where: { uuid } } );
     

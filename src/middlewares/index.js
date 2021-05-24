@@ -1,4 +1,3 @@
-
 const fieldValidator = require('./field-validator');
 const jwtValidator = require('./jwt-validator');
 const loginVerifier = require('./login-verifier');

@@ -1,6 +1,8 @@
 const { User } = require('../db/models');
-
-
+/**
+ * Función validadora para express-validator
+ * @param {String} email 
+ */
 const emailExists = async ( email = '') => {
      const emailExists = await User.findOne({ where: { email } });
 
@@ -9,7 +11,10 @@ const emailExists = async ( email = '') => {
      }
 }
 
-
+/**
+ * Función validadora para express-validator
+ * @param {String} uuid 
+ */
 const userExists = async (uuid) => {
     const userExists = await User.findOne( { where: { uuid } } );
 
