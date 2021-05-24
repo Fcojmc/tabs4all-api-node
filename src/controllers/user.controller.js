@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
+const path = require('path');
 const { User } = require('../db/models');
+const { ApiError } = require('../error/api.error');
 
 /**
  * Método para crear un usuario
@@ -62,12 +64,27 @@ exports.getUserInfo = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
 
     const { uuid } = req.params;
-    const data = req.body.data;
+    const userData = JSON.parse(req.body.data);
 
     try {
         const user = await User.findOne( { where: { uuid } } );
 
-        await user.update(body);
+        let imageName = user.image;
+
+        if (req.files) {
+            let image = req.files.image;
+            imageName = new Date().valueOf() + '_' + image.name;
+            image.mv(path.join(__dirname, '../../public/user-images/', imageName), (error) => {
+                if (error) {
+                    throw ApiError.badRequest('Error uploading image.');
+                }
+            }); 
+        }
+
+        await user.update({
+            name: userData.name,
+            image: imageName
+        });
 
         return res.json({
             success: true,

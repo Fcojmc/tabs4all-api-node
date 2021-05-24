@@ -33,7 +33,6 @@ router.put('/users/update/:uuid', [
     validateJWT,
     loginVerifier,
     check('uuid').custom(userExists),
-    check('name', 'Name must not be empty.').not().isEmpty(),
     fieldValidator
 ], updateUser);
 

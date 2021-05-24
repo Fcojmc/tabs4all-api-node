@@ -34,7 +34,6 @@ app.use(basePath, require('./src/routes/band.routes'));
 app.use(basePath, require('./src/routes/tab.routes'));
 app.use(basePath, require('./src/routes/song.routes'));
 app.use(basePath, require('./src/routes/favourites.routes'));
-app.use(basePath, require('./src/routes/upload.routes'));
 
 /**
  * Manejo de errores global mediante custom middleware

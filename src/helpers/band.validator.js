@@ -2,18 +2,6 @@ const { Band } = require('../db/models');
 
 /**
  * Función validadora para express-validator
- * @param {String} name 
- */
-const bandExists = async ( name = '' ) => {
-    const bandExists = await Band.findOne( { where: { name } });
-
-    if (bandExists) {
-        throw new Error(`Band ${name} already exists.`);
-    }
-}
-
-/**
- * Función validadora para express-validator
  * @param {String} uuid 
  */
 const bandExistsByUuid = async (uuid) => {
@@ -24,4 +12,4 @@ const bandExistsByUuid = async (uuid) => {
     }
 }
 
-module.exports = { bandExists, bandExistsByUuid }
+module.exports = { bandExistsByUuid }

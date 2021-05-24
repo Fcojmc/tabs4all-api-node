@@ -1,5 +1,4 @@
 
-
 exports.uploadImage = (req, res) => {
     //const user = JSON.parse(req.body.json)
   let sampleFile;

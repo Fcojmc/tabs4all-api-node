@@ -22,7 +22,7 @@ const apiErrorHandler = (error, req, res, next) => {
 
     res.status(500).json({
         error: {
-            message: 'Something went wrong, contact administrator.'
+            message: error.message
         }
     });
 }

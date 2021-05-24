@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { bandExists, bandExistsByUuid } = require('../helpers/band.validator');
+const { bandExistsByUuid } = require('../helpers/band.validator');
 
-const { fieldValidator, 
+const { bandNameCheck,
+        fieldValidator, 
         validateJWT, 
         loginVerifier,
-        isAdminRole } = require('../middlewares');
+        isAdminRole} = require('../middlewares');
 
 const { getAllBands,
         getBandById,
@@ -26,9 +27,7 @@ router.post('/bands/create', [
     validateJWT,
     loginVerifier,
     isAdminRole,
-    check('name', 'Band name must not be empty.').not().isEmpty(),
-    check('name').custom(bandExists),
-    fieldValidator
+    bandNameCheck
 ], createBand);
 
 router.put('/bands/update/:uuid', [
@@ -36,11 +35,10 @@ router.put('/bands/update/:uuid', [
     loginVerifier,
     isAdminRole,
     check('uuid').custom(bandExistsByUuid),
-    check('name', 'Band name must not be empty.').not().isEmpty(),
     fieldValidator
 ], updateBand);
 
-router.delete('/users/delete/:uuid', [
+router.delete('/bands/delete/:uuid', [
     validateJWT,
     loginVerifier,
     isAdminRole,

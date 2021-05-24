@@ -1,4 +1,6 @@
+const path = require('path');
 const { Band } = require('../db/models');
+const { ApiError } = require('../error/api.error');
 
 /**
  * Método para crear grupos.
@@ -8,14 +10,30 @@ const { Band } = require('../db/models');
  * @returns {Response.json}
  */
 exports.createBand = async (req, res, next) => {
-    const { name, url_yt } = req.body;
+    const bandData = JSON.parse(req.body.data);
 
     try {
-        await Band.create({name, url_yt});
+        let imageName;
+
+        if (req.files) {
+            let image = req.files.image;
+            imageName = new Date().valueOf() + '_' + image.name;
+            image.mv(path.join(__dirname, '../../public/band-images/', imageName), (error) => {
+                if (error) {
+                    throw ApiError.badRequest('Error uploading image.');
+                }
+            });
+        } 
+
+        await Band.create({
+            name: bandData.name,
+            image: imageName,
+            url_yt: bandData.url_yt
+        });
 
         return res.json({
             success: true,
-            message: `Band ${name} created.`,
+            message: `Band ${bandData.name} created.`,
         });
     } catch(error) {
         next(error);
@@ -101,18 +119,33 @@ exports.getBandById = async (req, res, next) => {
  */
 exports.updateBand = async (req, res, next) => {
     const { uuid } = req.params;
-    const { name, url_yt } = req.body;
+    const bandData = JSON.parse(req.body.data);
 
     try {
         const band = await Band.findOne( { where: { uuid } } );
 
-        await band.update({name, url_yt});
+        let imageName = band.image;
+        
+        if (req.files) {
+            let image = req.files.image;
+            imageName = new Date().valueOf() + '_' + image.name;
+            image.mv(path.join(__dirname, '../../public/band-images/', imageName), (error) => {
+                if (error) {
+                    throw ApiError.badRequest('Error uploading image.');
+                }
+            });
+        } 
+
+        await band.update({
+            name: bandData.name,
+            image: imageName,
+            url_yt: bandData.url_yt
+        });
         
         return res.json({
             success: true,
-            message: `Band ${name} updated.`
+            message: `Band ${bandData.name} updated.`
         });
-        
     } catch (error) {
        next(error);
     }
