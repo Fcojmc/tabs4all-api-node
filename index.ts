@@ -4,6 +4,7 @@ import db from './src/db/models';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import userRoutes from './src/routes/user.routes';
+import tabRoutes from './src/routes/tab.routes';
 import errorHandler from './src/middlewares/error-handler';
 
 
@@ -22,11 +23,12 @@ app.use( fileUpload({
 );
 
 app.use(basePath, userRoutes);
+app.use(basePath, tabRoutes);
 
 app.use(errorHandler);
 
 app.listen(port, async () => {
     console.log(`App running on port ${port}`);
     await db.sequelize.authenticate();
-    console.log('Database connected')
+    console.log('Database connected');
 })
