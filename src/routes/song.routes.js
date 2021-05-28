@@ -10,7 +10,7 @@ const { fieldValidator,
 
 const router = Router();
 
-router.post('/songs/scraper/:uuid', [
+router.get('/songs/scraper/:uuid', [
     validateJWT,
     loginVerifier,
     isAdminRole,

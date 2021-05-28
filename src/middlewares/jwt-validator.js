@@ -22,7 +22,7 @@ const validateJWT = async (req, res, next) => {
         const user = await User.findOne({ where: { uuid } });
 
         if (!user) {
-           throw new ApiError(401, 'Invalid token');
+           throw new ApiError(401, 'You need to login again');
         }
         
         const userVerified = {

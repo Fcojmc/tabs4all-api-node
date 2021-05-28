@@ -22,10 +22,9 @@ router.post('/users/register', [
     fieldValidator
 ], registerUser);
 
-router.get('/users/:uuid', [
+router.get('/users/my-info', [
     validateJWT,
     loginVerifier,
-    check('uuid').custom(userExists),
     fieldValidator
 ], getUserInfo);
 

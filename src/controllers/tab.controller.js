@@ -8,10 +8,11 @@ const { Tab, User } = require('../db/models');
  * @returns {Response.json}
  */
 exports.createTab = async (req, res, next) => {
-    const { name, content, url_yt, userUuid } = req.body;
+    const { name, content, url_yt } = req.body;
+    const { uuid } = req.user_verified;
 
     try {
-        const user = await User.findOne( { where: { uuid: userUuid } } );
+        const user = await User.findOne( { where: { uuid } } );
 
         const tab = await Tab.create({ name, content, url_yt, userId: user.id });
 
@@ -87,8 +88,8 @@ exports.getTabById = async (req, res, next) => {
     const { uuid } = req.params;
 
     try {
-        const tab = Tab.findOne( { where: { uuid } } );
-
+        const tab = await Tab.findOne( { where: { uuid } } );
+        
         return res.json({
             success: true,
             message: 'Tab data.',

@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate({ Band, Tab, UsersTabs, UsersBands }) {
       // define association here
       this.hasMany(Tab, { foreignKey: 'userId', as: 'tabs' });
-      this.belongsToMany(Tab, { as: 'favouriteTab', through: UsersTabs });
-      this.belongsToMany(Band, { as: 'favouriteBand', through: UsersBands });
+      this.belongsToMany(Tab, { as: 'favouriteTabs', through: UsersTabs });
+      this.belongsToMany(Band, { as: 'favouriteBands', through: UsersBands });
     }
 
     toJSON() {

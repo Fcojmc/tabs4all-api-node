@@ -12,18 +12,14 @@ const apiErrorHandler = (error, req, res, next) => {
 
     if (error instanceof ApiError) {
         res.status(error.code).json({
-            error: {
-                message: error.message
-            }
+            message: error.message
         });
 
         return;
     }
 
     res.status(500).json({
-        error: {
-            message: error.message
-        }
+        message: error.message
     });
 }
 

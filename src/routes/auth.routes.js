@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { login } = require('../controllers/auth.controller');
+const { login, authCheck, adminCheck } = require('../controllers/auth.controller');
+const { loginVerifier, validateJWT, isAdminRole } = require('../middlewares');
 const { fieldValidator } = require('../middlewares/field-validator');
 
 const router = Router();
@@ -14,5 +15,13 @@ router.post('/auth/login', [
     fieldValidator
 ], login);
 
+router.get('/auth/check', [
+    validateJWT,
+    loginVerifier
+], authCheck);
 
+router.get('/auth/admin-check', [
+    validateJWT,
+    loginVerifier
+], adminCheck);
 module.exports = router;

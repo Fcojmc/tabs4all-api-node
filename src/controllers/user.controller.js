@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
 const path = require('path');
 const { User } = require('../db/models');
 const { ApiError } = require('../error/api.error');
@@ -39,17 +40,17 @@ exports.registerUser = async (req, res, next) => {
  */
 exports.getUserInfo = async (req, res, next) => {
     
-    const { uuid } = req.params;
+    const { uuid } = req.user_verified;
 
     try{
-        const user = await User.findOne( { where: { uuid } } );
+        const user = await User.findOne( { where: { uuid }, include: ['favouriteBands', 'favouriteTabs', 'tabs'] } );
 
         return res.json({
             success: true,
             message: 'User info',
             data: user
          });
-    } catch(err) {
+    } catch(error) {
         next(error);
     }
 }
@@ -64,14 +65,22 @@ exports.getUserInfo = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
 
     const { uuid } = req.params;
-    const userData = JSON.parse(req.body.data);
 
     try {
+        const userData = JSON.parse(req.body.data);
         const user = await User.findOne( { where: { uuid } } );
 
         let imageName = user.image;
 
         if (req.files) {
+            if (imageName != null) {
+                const imagePath = path.join(__dirname, '../../public/user-images/', imageName);
+                
+                if(fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath);
+                }
+            }
+
             let image = req.files.image;
             imageName = new Date().valueOf() + '_' + image.name;
             image.mv(path.join(__dirname, '../../public/user-images/', imageName), (error) => {
@@ -83,6 +92,7 @@ exports.updateUser = async (req, res, next) => {
 
         await user.update({
             name: userData.name,
+            email: userData.email,
             image: imageName
         });
 

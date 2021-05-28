@@ -8,22 +8,22 @@ const { setFavouriteBands,
 
 const router = Router();
 
-router.post('/user-favourites/bands', [
+router.post('/set-user-favourites/bands', [
     validateJWT,
     loginVerifier
 ], setFavouriteBands);
 
-router.post('/user-favourites/tabs', [
+router.post('/set-user-favourites/tabs', [
     validateJWT,
     loginVerifier
 ], setFavouriteTabs);
 
-router.delete('/user-favourites/bands', [
+router.post('/unset-user-favourites/bands', [
     validateJWT,
     loginVerifier
 ], unsetFavouriteBands);
 
-router.delete('/user-favourites/tabs', [
+router.post('/unset-user-favourites/tabs', [
     validateJWT,
     loginVerifier
 ], unsetFavouriteTabs);

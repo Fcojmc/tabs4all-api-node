@@ -17,13 +17,13 @@ exports.login = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { email } });
         if (!user) {
-            throw ApiError.badRequest('Email does not match.');
+            throw ApiError.badRequest('Invalid credentials.');
         }
 
         const validPassword = bcryptjs.compareSync(password, user.password);
 
         if (!validPassword) {
-            throw ApiError.badRequest('Password does not match.');
+            throw ApiError.badRequest('Invalid credentials.');
         }
 
         const token = await generateJWT( user.uuid );
@@ -35,5 +35,30 @@ exports.login = async (req, res, next) => {
         });
     } catch (error) {
         next(error);   
+    }
+}
+
+exports.authCheck = (req, res, next) => {
+    try {
+        if (!req.user_verified) {
+            res.status(400).send(false);
+        }
+
+        if(req.user_verified) {
+            res.send(true);
+        }
+        
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.adminCheck = (req, res, next) => {
+    try {
+        if(req.user_verified.is_admin){
+            res.send(true);
+        }
+    } catch (error) {
+        next(error);
     }
 }
