@@ -5,6 +5,7 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import bandRoutes from './src/routes/band.routes';
 import tabRoutes from './src/routes/tab.routes';
+import songRoutes from './src/routes/song.routes';
 import userRoutes from './src/routes/user.routes';
 import errorHandler from './src/middlewares/error-handler';
 
@@ -24,8 +25,10 @@ app.use( fileUpload({
 );
 
 app.use(basePath, bandRoutes);
-app.use(basePath, userRoutes);
 app.use(basePath, tabRoutes);
+app.use(basePath, songRoutes);
+app.use(basePath, userRoutes);
+
 
 app.use(errorHandler);
 
