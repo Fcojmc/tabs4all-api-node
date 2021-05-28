@@ -3,8 +3,9 @@ import express, { Application } from 'express';
 import db from './src/db/models';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
-import userRoutes from './src/routes/user.routes';
+import bandRoutes from './src/routes/band.routes';
 import tabRoutes from './src/routes/tab.routes';
+import userRoutes from './src/routes/user.routes';
 import errorHandler from './src/middlewares/error-handler';
 
 
@@ -22,6 +23,7 @@ app.use( fileUpload({
   })
 );
 
+app.use(basePath, bandRoutes);
 app.use(basePath, userRoutes);
 app.use(basePath, tabRoutes);
 
