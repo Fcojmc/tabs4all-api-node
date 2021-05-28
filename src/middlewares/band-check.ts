@@ -3,7 +3,7 @@ import db from '../db/models';
 import ApiError from '../error/api.error';
 import { IBand } from '../interfaces/IBand';
 
-export const bandNameCheck = async (req: Request,
+const bandNameCheck = async (req: Request,
                                     res: Response,
                                     next: NextFunction): Promise<void> => {
     const bandData: IBand = JSON.parse(req.body.data);
@@ -20,3 +20,5 @@ export const bandNameCheck = async (req: Request,
         next(error);
     }
 }
+
+export default bandNameCheck;

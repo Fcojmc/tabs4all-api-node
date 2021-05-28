@@ -4,7 +4,7 @@ import db from '../db/models';
 import ApiError from '../error/api.error';
 import { IUser } from '../interfaces/IUser';
 
-export const validateJWT = async (req: any,
+const validateJWT = async (req: any,
                                   res: Response,
                                   next: NextFunction): Promise<void> => {
     const token = req.header('x-auth-token') as string;
@@ -37,3 +37,5 @@ export const validateJWT = async (req: any,
         next(error);
     }
 }
+
+export default validateJWT;
