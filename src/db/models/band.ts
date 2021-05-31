@@ -1,5 +1,7 @@
 'use strict';
 
+import db from './index';
+
 import { IBand } from '../../interfaces/IBand';
 
 import {
@@ -21,7 +23,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     
     static associate(models: any) {
       // define association here
-     
+      this.hasMany(db.Song, { as: 'songs', foreignKey: 'bandId'});
+      this.belongsToMany(db.User, { through: db.UsersBands });
     }
 
     toJSON() {
@@ -49,8 +52,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
   }, {
     sequelize,
-    modelName: 'Tab',
-    tableName: 'tabs'
+    modelName: 'Band',
+    tableName: 'bands'
   });
   return Band;
 };

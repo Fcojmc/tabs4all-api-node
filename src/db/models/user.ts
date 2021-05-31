@@ -1,5 +1,7 @@
 'use strict';
 
+import db from './index';
+
 import { IUser } from '../../interfaces/IUser';
 
 import {
@@ -14,6 +16,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    id!:   string;
     uuid!: string;
     name!: string;
     email!: string;
@@ -23,7 +26,9 @@ module.exports = (sequelize: any, DataTypes: any) => {
     
     static associate(models: any) {
       // define association here
-     
+      this.hasMany(db.Tab, { foreignKey: 'userId', as: 'tabs' });
+      this.belongsToMany(db.Tab, { as: 'favouriteTabs', through: db.UsersTabs });
+      this.belongsToMany(db.Band, { as: 'favouriteBands', through: db.UsersBands });
     }
 
     toJSON() {
